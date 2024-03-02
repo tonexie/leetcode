@@ -1,3 +1,24 @@
+class Solution(object):
+    def checkInclusion(self, s1, s2):
+        s1Array = [0] * 26
+        for c in s1:
+            index = ord(c) - ord("a")
+            s1Array[index] += 1
+        
+        window = [0] * 26
+        l = 0
+        for i, r in enumerate(s2):
+            window[ord(r) - ord("a")] += 1
+            if i >= len(s1):
+                window[ord(s2[l]) - ord("a")] -= 1
+                l += 1
+            if s1Array == window:
+                return True
+        
+        return False
+
+
+
 # core idea here is to store counts in a 26 index list for the letters, and then compare if they are the same
 class Solution(object):
     def checkInclusion(self, s1, s2):
