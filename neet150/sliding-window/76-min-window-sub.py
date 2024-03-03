@@ -1,37 +1,65 @@
-# neet
 class Solution:
     def minWindow(self, s, t):
         if t == "":
             return ""
 
-        countT, window = {}, {}
+        tCount, window = {}, {}
+        res, length = [-1, -1], float("inf")
         for c in t:
-            countT[c] = 1 + countT.get(c, 0)
+            tCount[c] = 1 + tCount.get(c, 0)
 
-        have, need = 0, len(countT)
-        res, resLen = [-1, -1], float("infinity")
+        need = len(tCount)
+        have = 0
         l = 0
-        for r in range(len(s)):
-            c = s[r]
+
+        for r, c in enumerate(s):
             window[c] = 1 + window.get(c, 0)
-
-            if c in countT and window[c] == countT[c]:
+            if c in tCount and window[c] == tCount[c]:
                 have += 1
-
             while have == need:
-                # update our result
-                if (r - l + 1) < resLen:
+                if r - l + 1 < length:
+                    length = r - l + 1
                     res = [l, r]
-                    resLen = r - l + 1
-                # pop from the left of our window
                 window[s[l]] -= 1
-                if s[l] in countT and window[s[l]] < countT[s[l]]:
+                if s[l] in tCount and window[s[l]] < tCount[s[l]]:
                     have -= 1
                 l += 1
-        l, r = res
-        return s[l : r + 1] if resLen != float("infinity") else ""
+
+        return s[res[0] : res[1] + 1]
 
 
+# # neet
+# class Solution:
+#     def minWindow(self, s, t):
+#         if t == "":
+#             return ""
+
+#         countT, window = {}, {}
+#         for c in t:
+#             countT[c] = 1 + countT.get(c, 0)
+
+#         have, need = 0, len(countT)
+#         res, resLen = [-1, -1], float("infinity")
+#         l = 0
+#         for r in range(len(s)):
+#             c = s[r]
+#             window[c] = 1 + window.get(c, 0)
+
+#             if c in countT and window[c] == countT[c]:
+#                 have += 1
+
+#             while have == need:
+#                 # update our result
+#                 if (r - l + 1) < resLen:
+#                     res = [l, r]
+#                     resLen = r - l + 1
+#                 # pop from the left of our window
+#                 window[s[l]] -= 1
+#                 if s[l] in countT and window[s[l]] < countT[s[l]]:
+#                     have -= 1
+#                 l += 1
+#         l, r = res
+#         return s[l : r + 1] if resLen != float("infinity") else ""
 
 
 # class Solution(object):
@@ -59,7 +87,7 @@ class Solution:
 #                 while True:
 #                   if winHash[s[l]] - 1 >= tHash[s[l]]:
 #                     l += 1
-                  
+
 #                   break
 #                 substr = s[l : r + 1]
 #                 if len(substr) < len(output) or len(output) == 0:
