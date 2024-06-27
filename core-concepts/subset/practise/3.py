@@ -1,19 +1,18 @@
 from collections import deque
 
-def permutate(nums):
+def subsets(nums):
   res = []
   queue = deque([[]])
   
   while queue:
     currQ = queue.popleft()
-    if len(currQ) == len(nums):
-      res.append(currQ)
-      
+    res.append(currQ)
+    
     for n in nums:
-      if n not in currQ:
+      if not currQ or n > currQ[-1]:
         sub = currQ + [n]
         queue.append(sub)
         
   return res
 
-print(permutate([1,2,3]))
+print(subsets([1,2,3])) 
