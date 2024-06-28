@@ -39,5 +39,37 @@ def dfs_path_exists(graph, start, target):
     # If there's no path between the start and target nodes
     return False
 
+def dfs_rec(graph, start, target, visited):
+    # If this node is the target, return True
+    if start == target:
+        return True
+
+    # Mark the node as visited
+    visited.add(start)
+
+    # Recur for all the vertices adjacent to this vertex
+    for neighbor in graph.get(start, []):
+        if neighbor not in visited:
+            if dfs_rec(graph, neighbor, target, visited):
+                return True
+
+    # If no path is found, return False
+    return False
+
+# Example usage
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A'],
+    'D': ['B'],
+    'E': ['B']
+}
+
+print(dfs_rec(graph, 'A', 'E', set()))  # Output: True
+print(dfs_rec(graph, 'A', 'D', set()))  # Output: True
+print(dfs_rec(graph, 'A', 'F', set()))  # Output: False
+
+
+
 if __name__ == "__main__":
     main()
